@@ -29,15 +29,15 @@ export class DatabaseStorage implements IStorage {
       await db.insert(content).values([
         { 
           section: "hero_tagline", 
-          text: "I build systems that remove friction." 
+          text: "I build things that actually work." 
         },
         { 
           section: "about", 
-          text: "I focus on the logic behind the code. I build tools that automate the mundane and systems that scale without breaking. My approach is grounded in removing friction and enabling efficiency. I learn deeply to understand how things work at their core." 
+          text: "I focus on the logic behind the code. I build tools that automate the boring stuff and systems that just work. My approach is grounded in making things simpler and more efficient. I learn deeply to understand how things work at their core." 
         },
         { 
           section: "work", 
-          text: "I am interested in building automation pipelines, community tools, and robust digital infrastructure. My goal is to create practical software that solves actual problems." 
+          text: "I'm currently building orderlyy, which lets people automate their shops on Telegram (WhatsApp coming soon). I also founded arenaanywhere.site. I like building digital infrastructure that solves real problems without the fluff." 
         }
       ]);
     }
@@ -47,8 +47,8 @@ export class DatabaseStorage implements IStorage {
       await db.insert(skills).values([
         { name: "System Architecture", order: 1 },
         { name: "Automation", order: 2 },
-        { name: "Digital Infrastructure", order: 3 },
-        { name: "Backend Logic", order: 4 },
+        { name: "Telegram/WhatsApp Bot Dev", order: 3 },
+        { name: "Product Engineering", order: 4 },
       ]);
     }
   }

@@ -84,11 +84,16 @@ export default function Home() {
 
         {/* WORK / DIRECTION */}
         <motion.section variants={itemVariants} className="mb-20 md:mb-28">
-          <SectionHeading>Direction</SectionHeading>
-          <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl">
+          <SectionHeading>Projects</SectionHeading>
+          <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl space-y-6">
             <p className="whitespace-pre-line">
-              {work?.text || "Currently exploring community tools and practical software that simplifies complex workflows. I am interested in building digital infrastructure that stands the test of time."}
+              {work?.text || "Building things that matter."}
             </p>
+            <div className="pt-4">
+              <TextLink href="https://arenaanywhere.site" className="text-accent-primary font-medium">
+                arenaanywhere.site
+              </TextLink>
+            </div>
           </div>
         </motion.section>
 
@@ -103,21 +108,29 @@ export default function Home() {
                 </li>
               ))
             ) : (
-              <li className="text-muted-foreground">Automation, Systems Architecture, Fullstack Development, Tooling</li>
+              <li className="text-muted-foreground">Automation, Systems Architecture, Product Engineering</li>
             )}
           </ul>
         </motion.section>
 
         {/* CONTACT */}
         <motion.section variants={itemVariants} className="mb-32">
-          <SectionHeading>Connect</SectionHeading>
-          <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 text-lg">
-            <TextLink href="https://x.com/gidmo_ceo">
-              X (Twitter)
-            </TextLink>
-            <TextLink href="https://instagram.com/gidmo.godtimestudios">
-              Instagram
-            </TextLink>
+          <SectionHeading>Contact</SectionHeading>
+          <div className="space-y-6">
+            <p className="text-lg md:text-xl font-light text-foreground/90">
+              Drop me a line at{" "}
+              <a href="mailto:gidmo@arenaanywhere.site" className="text-accent-primary font-medium hover:underline underline-offset-4">
+                gidmo@arenaanywhere.site
+              </a>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 text-lg">
+              <TextLink href="https://x.com/gidmo_ceo">
+                X (Twitter)
+              </TextLink>
+              <TextLink href="https://instagram.com/gidmo.godtimestudios">
+                Instagram
+              </TextLink>
+            </div>
           </div>
         </motion.section>
 

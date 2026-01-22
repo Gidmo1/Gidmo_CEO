@@ -13,9 +13,11 @@
   /* Deep charcoal foreground */
   --foreground: 0 0% 10%;
   
-  /* Muted Accent - subtle sage green */
-  --primary: 120 5% 20%;
+  /* Muted Accent - subtle professional rust/terracotta */
+  --primary: 20 40% 30%;
   --primary-foreground: 40 20% 97%;
+  
+  --accent-primary: hsl(20 60% 45%);
   
   /* Secondary - Soft Gray */
   --secondary: 40 10% 90%;
