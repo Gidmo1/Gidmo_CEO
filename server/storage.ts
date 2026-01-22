@@ -36,7 +36,7 @@ export class DatabaseStorage implements IStorage {
       await db.insert(content).values([
         { 
           section: "hero_tagline", 
-          text: "I build mobile apps and games that people actually play." 
+          text: "I build mobile apps and games that make a difference." 
         },
         { 
           section: "about", 
