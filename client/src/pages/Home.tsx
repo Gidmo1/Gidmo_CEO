@@ -3,6 +3,16 @@ import { useSkills } from "@/hooks/use-skills";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TextLink } from "@/components/TextLink";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { api } from "@shared/routes";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 // Staggered animation variants
 const containerVariants = {
@@ -21,7 +31,7 @@ const itemVariants = {
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } // Custom easing for editorial feel
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
   },
 };
 
@@ -30,6 +40,37 @@ export default function Home() {
   const { content: about, isLoading: loadingAbout } = useContentSection("about");
   const { content: work, isLoading: loadingWork } = useContentSection("work");
   const { data: skills, isLoading: loadingSkills } = useSkills();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm({
+    resolver: zodResolver(api.contact.submit.input),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  async function onSubmit(data: any) {
+    setIsSubmitting(true);
+    try {
+      await apiRequest("POST", "/api/contact", data);
+      toast({
+        title: "Message sent",
+        description: "I'll get back to you as soon as I can.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   // Loading state skeleton
   if (loadingTagline || loadingAbout || loadingWork || loadingSkills) {
@@ -68,7 +109,7 @@ export default function Home() {
           </div>
           
           <p className="mt-8 md:mt-12 text-2xl md:text-3xl font-light leading-snug max-w-xl text-balance">
-            {tagline?.text || "I build systems that remove friction."}
+            {tagline?.text || "I build mobile apps and games that people actually play."}
           </p>
         </motion.header>
 
@@ -77,12 +118,12 @@ export default function Home() {
           <SectionHeading>About</SectionHeading>
           <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl space-y-6">
             <p className="whitespace-pre-line">
-              {about?.text || "I am a builder focused on automation and digital infrastructure. I don't just write code; I design systems that solve real problems. My approach is practical, grounded, and long-term."}
+              {about?.text || "I am a mobile app and game developer. I focus on building tools that automate the boring stuff and systems that just work. I learn deeply to understand how things work at their core."}
             </p>
           </div>
         </motion.section>
 
-        {/* WORK / DIRECTION */}
+        {/* PROJECTS */}
         <motion.section variants={itemVariants} className="mb-20 md:mb-28">
           <SectionHeading>Projects</SectionHeading>
           <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl space-y-6">
@@ -90,9 +131,12 @@ export default function Home() {
               {work?.text || "Building things that matter."}
             </p>
             <div className="pt-4">
-              <TextLink href="https://arenaanywhere.site" className="text-accent-primary font-medium">
+              <TextLink href="https://arenaanywhere.site" className="text-accent-primary font-medium underline underline-offset-4">
                 arenaanywhere.site
-              </TextLink>
+              </Link>
+              <p className="mt-2 text-base text-muted-foreground italic">
+                A one-tap platform to play PPSSPP eFootball online instantly. No VPNs, no setup.
+              </p>
             </div>
           </div>
         </motion.section>
@@ -108,7 +152,7 @@ export default function Home() {
                 </li>
               ))
             ) : (
-              <li className="text-muted-foreground">Automation, Systems Architecture, Product Engineering</li>
+              <li className="text-muted-foreground">Mobile Dev, Game Dev, System Automation</li>
             )}
           </ul>
         </motion.section>
@@ -116,20 +160,74 @@ export default function Home() {
         {/* CONTACT */}
         <motion.section variants={itemVariants} className="mb-32">
           <SectionHeading>Contact</SectionHeading>
-          <div className="space-y-6">
-            <p className="text-lg md:text-xl font-light text-foreground/90">
-              Drop me a line at{" "}
-              <a href="mailto:gidmo@arenaanywhere.site" className="text-accent-primary font-medium hover:underline underline-offset-4">
-                gidmo@arenaanywhere.site
-              </a>
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 text-lg">
-              <TextLink href="https://x.com/gidmo_ceo">
-                X (Twitter)
-              </TextLink>
-              <TextLink href="https://instagram.com/gidmo.godtimestudios">
-                Instagram
-              </TextLink>
+          <div className="max-w-xl space-y-12">
+            <div className="space-y-4">
+              <p className="text-lg md:text-xl font-light text-foreground/90">
+                Want to work together? Use the form below or find me on socials.
+              </p>
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-8">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} className="bg-transparent border-border/60 focus:border-accent-primary" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="john@example.com" {...field} className="bg-transparent border-border/60 focus:border-accent-primary" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Tell me about your project..." 
+                            className="bg-transparent border-border/60 focus:border-accent-primary min-h-[120px]" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button 
+                    type="submit" 
+                    className="w-full sm:w-auto bg-accent-primary hover:bg-accent-primary/90 text-white px-8 h-12 rounded-sm transition-all"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </Form>
+            </div>
+
+            <div className="pt-8 border-t border-border/40">
+              <p className="text-sm text-muted-foreground uppercase tracking-widest mb-4">Socials</p>
+              <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 text-lg">
+                <TextLink href="https://x.com/gidmo_ceo">X (Twitter)</TextLink>
+                <TextLink href="https://instagram.com/gidmo.godtimestudios">Instagram</TextLink>
+              </div>
             </div>
           </div>
         </motion.section>

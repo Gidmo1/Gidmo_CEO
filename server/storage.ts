@@ -2,15 +2,18 @@ import { db } from "./db";
 import {
   content,
   skills,
+  contactMessages,
   type Content,
   type Skill,
   type InsertContent,
-  type InsertSkill
+  type InsertSkill,
+  type InsertContactMessage
 } from "@shared/schema";
 
 export interface IStorage {
   getContent(): Promise<Content[]>;
   getSkills(): Promise<Skill[]>;
+  saveMessage(message: InsertContactMessage): Promise<void>;
   seedInitialData(): Promise<void>;
 }
 
@@ -23,21 +26,25 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(skills).orderBy(skills.order);
   }
 
+  async saveMessage(message: InsertContactMessage): Promise<void> {
+    await db.insert(contactMessages).values(message);
+  }
+
   async seedInitialData(): Promise<void> {
     const existingContent = await this.getContent();
     if (existingContent.length === 0) {
       await db.insert(content).values([
         { 
           section: "hero_tagline", 
-          text: "I build things that actually work." 
+          text: "I build mobile apps and games that people actually play." 
         },
         { 
           section: "about", 
-          text: "I focus on the logic behind the code. I build tools that automate the boring stuff and systems that just work. My approach is grounded in making things simpler and more efficient. I learn deeply to understand how things work at their core." 
+          text: "I'm a mobile app and game developer. I focus on building tools that automate the boring stuff and systems that just work. I learn deeply to understand how things work at their core." 
         },
         { 
           section: "work", 
-          text: "I'm currently building orderlyy, which lets people automate their shops on Telegram (WhatsApp coming soon). I also founded arenaanywhere.site. I like building digital infrastructure that solves real problems without the fluff." 
+          text: "I'm currently building Orderlyy, an automated shop system for Telegram and WhatsApp. I also built Arena Anywhere, a one-tap platform to play PPSSPP eFootball online without the hassle of VPNs or manual IP sharing." 
         }
       ]);
     }
@@ -45,10 +52,10 @@ export class DatabaseStorage implements IStorage {
     const existingSkills = await this.getSkills();
     if (existingSkills.length === 0) {
       await db.insert(skills).values([
-        { name: "System Architecture", order: 1 },
-        { name: "Automation", order: 2 },
-        { name: "Telegram/WhatsApp Bot Dev", order: 3 },
-        { name: "Product Engineering", order: 4 },
+        { name: "Mobile App Development", order: 1 },
+        { name: "Game Development", order: 2 },
+        { name: "System Automation", order: 3 },
+        { name: "Backend Logic", order: 4 },
       ]);
     }
   }

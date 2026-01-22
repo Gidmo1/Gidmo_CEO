@@ -20,6 +20,21 @@ export const api = {
       },
     },
   },
+  contact: {
+    submit: {
+      method: 'POST' as const,
+      path: '/api/contact',
+      input: z.object({
+        name: z.string().min(1, "Name is required"),
+        email: z.string().email("Invalid email"),
+        message: z.string().min(1, "Message is required"),
+      }),
+      responses: {
+        200: z.object({ success: z.boolean() }),
+        400: z.object({ message: z.string() }),
+      },
+    },
+  },
 };
 
 export function buildUrl(path: string, params?: Record<string, string | number>): string {

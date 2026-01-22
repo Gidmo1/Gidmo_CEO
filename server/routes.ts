@@ -18,6 +18,16 @@ export async function registerRoutes(
     res.json(skills);
   });
 
+  app.post(api.contact.submit.path, async (req, res) => {
+    try {
+      const input = api.contact.submit.input.parse(req.body);
+      await storage.saveMessage(input);
+      res.json({ success: true });
+    } catch (err) {
+      res.status(400).json({ message: "Invalid input" });
+    }
+  });
+
   // Seed data on startup
   await storage.seedInitialData();
 
