@@ -126,16 +126,20 @@ export default function Home() {
         {/* PROJECTS */}
         <motion.section variants={itemVariants} className="mb-20 md:mb-28">
           <SectionHeading>Projects</SectionHeading>
-          <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl space-y-6">
-            <p className="whitespace-pre-line">
-              {work?.text || "Building things that matter."}
-            </p>
-            <div className="pt-4">
-              <TextLink href="https://arenaanywhere.site" className="text-accent-primary font-medium underline underline-offset-4">
+          <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl space-y-12">
+            <div className="space-y-4">
+              <TextLink href="https://arenaanywhere.site" className="text-accent-primary text-2xl font-medium underline underline-offset-8">
                 arenaanywhere.site
-              </Link>
-              <p className="mt-2 text-base text-muted-foreground italic">
-                A one-tap platform to play PPSSPP eFootball online instantly. No VPNs, no setup.
+              </TextLink>
+              <p className="text-lg leading-relaxed text-foreground/80">
+                A one-tap platform to play PPSSPP eFootball online instantly. It connects players automatically, eliminates VPN hassles, and handles IP sharing in the background. Play in 60 seconds.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="text-2xl font-medium text-foreground">Orderlyy</div>
+              <p className="text-lg leading-relaxed text-foreground/80">
+                Automating shop management on Telegram and WhatsApp. It helps vendors handle orders and inventory without manual messaging back-and-forth.
               </p>
             </div>
           </div>
@@ -175,7 +179,7 @@ export default function Home() {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} className="bg-transparent border-border/60 focus:border-accent-primary" />
+                          <Input placeholder="Your Name" {...field} className="bg-transparent border-border/60 focus:border-accent-primary" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -188,7 +192,7 @@ export default function Home() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="john@example.com" {...field} className="bg-transparent border-border/60 focus:border-accent-primary" />
+                          <Input placeholder="your@email.com" {...field} className="bg-transparent border-border/60 focus:border-accent-primary" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
