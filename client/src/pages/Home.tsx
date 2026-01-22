@@ -109,7 +109,7 @@ export default function Home() {
           </div>
           
           <p className="mt-8 md:mt-12 text-2xl md:text-3xl font-light leading-snug max-w-xl text-balance">
-            {tagline?.text || "I build mobile apps and games that people actually play."}
+            {tagline?.text || "I build mobile apps and games that make a difference."}
           </p>
         </motion.header>
 
@@ -128,16 +128,22 @@ export default function Home() {
           <SectionHeading>Projects</SectionHeading>
           <div className="text-lg md:text-xl leading-relaxed text-foreground/90 font-light max-w-2xl space-y-12">
             <div className="space-y-4">
-              <TextLink href="https://arenaanywhere.site" className="text-accent-primary text-2xl font-medium underline underline-offset-8">
-                arenaanywhere.site
-              </TextLink>
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <TextLink href="https://arenaanywhere.site" className="text-accent-primary text-2xl font-medium underline underline-offset-8">
+                  arenaanywhere.site
+                </TextLink>
+                <span className="text-[10px] uppercase tracking-[0.2em] px-2 py-1 border border-accent-primary/30 text-accent-primary rounded-full">Live</span>
+              </div>
               <p className="text-lg leading-relaxed text-foreground/80">
                 A one-tap platform to play PPSSPP eFootball online instantly. It connects players automatically, eliminates VPN hassles, and handles IP sharing in the background. Play in 60 seconds.
               </p>
             </div>
 
             <div className="space-y-4">
-              <div className="text-2xl font-medium text-foreground">Orderlyy</div>
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <div className="text-2xl font-medium text-foreground">Orderlyy</div>
+                <span className="text-[10px] uppercase tracking-[0.2em] px-2 py-1 border border-foreground/20 text-muted-foreground rounded-full">Building</span>
+              </div>
               <p className="text-lg leading-relaxed text-foreground/80">
                 Automating shop management on Telegram and WhatsApp. It helps vendors handle orders and inventory without manual messaging back-and-forth.
               </p>
