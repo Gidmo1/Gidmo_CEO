@@ -1,9 +1,10 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
 import { rm, readFile } from "fs/promises";
+import { cpSync, existsSync } from "fs";
+import { resolve } from "path";
 
 // server deps to bundle to reduce openat(2) syscalls
-// which helps cold start times
 const allowlist = [
   "@google/generative-ai",
   "axios",
@@ -33,11 +34,14 @@ const allowlist = [
 ];
 
 async function buildAll() {
+  // 1️⃣ Clean dist FIRST
   await rm("dist", { recursive: true, force: true });
 
+  // 2️⃣ Build client (creates dist/)
   console.log("building client...");
   await viteBuild();
 
+  // 3️⃣ Build server
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
@@ -59,6 +63,15 @@ async function buildAll() {
     external: externals,
     logLevel: "info",
   });
+
+  // 4️⃣ NOW copy public → dist
+  const publicDir = resolve("public");
+  const distDir = resolve("dist");
+
+  if (existsSync(publicDir)) {
+    cpSync(publicDir, distDir, { recursive: true });
+    console.log("✔ Copied public files to dist");
+  }
 }
 
 buildAll().catch((err) => {
